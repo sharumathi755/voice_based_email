@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Inbox</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
+
+.container{
+margin-top:120px;
+}
+
+button{
+
+padding:15px 40px;
+border:none;
+border-radius:30px;
+background:#00c6ff;
+cursor:pointer;
+font-size:16px;
+margin:10px;
+
+}
+
+#spokenText{
+
+margin-top:40px;
+font-size:16px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Inbox</h1>
+
+<div class="container">
+
+<button onclick="checkInbox()">Check Inbox Count</button>
+
+<br>
+
+<button onclick="readLatest()">Read Latest Mail</button>
+
+</div>
+
+<div id="spokenText"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+
+systemState="inbox";
+
+speak("Inbox page. Say check inbox or read latest mail.",()=>{
+
+beep();
+
+setTimeout(()=>listen(handleCommand),600);
+
+});
+
+</script>
+
+</body>
+</html>

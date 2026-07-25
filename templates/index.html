@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Voice Email</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#141e30,#243b55);
+color:white;
+text-align:center;
+}
+
+header{
+background:#0f2027;
+padding:20px;
+font-size:22px;
+}
+
+.container{
+margin-top:120px;
+}
+
+button{
+padding:15px 40px;
+border:none;
+border-radius:30px;
+background:#00c6ff;
+font-size:18px;
+cursor:pointer;
+}
+
+#spokenText{
+margin:40px auto;
+width:60%;
+min-height:120px;
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:10px;
+text-align:left;
+}
+
+#passwordSection{
+display:none;
+margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>VOICE BASED EMAIL SYSTEM</header>
+
+<div class="container">
+
+<h1>Select Language</h1>
+
+<button onclick="startVoiceAssistant()">Start</button>
+
+<div id="spokenText"></div>
+
+<div id="passwordSection">
+<input type="password" id="passwordInput" placeholder="Enter Gmail App Password">
+</div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Send Mail</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
+
+.container{
+margin-top:100px;
+}
+
+input,textarea{
+
+width:60%;
+padding:12px;
+margin:10px;
+border-radius:8px;
+border:none;
+font-size:16px;
+
+}
+
+button{
+
+padding:12px 30px;
+border:none;
+border-radius:25px;
+background:#00c6ff;
+cursor:pointer;
+font-size:16px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Send Mail</h1>
+
+<div class="container">
+
+<input id="to" placeholder="Receiver Email">
+
+<br>
+
+<input id="subject" placeholder="Subject">
+
+<br>
+
+<textarea id="body" rows="4" placeholder="Message"></textarea>
+
+<br>
+
+<button onclick="sendMailManual()">Send</button>
+
+</div>
+
+<div id="spokenText"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+
+systemState="send_to";
+
+speak("Send mail page. Tell receiver email.",()=>{
+
+beep();
+setTimeout(()=>listen(handleCommand),600);
+
+});
+
+</script>
+
+</body>
+</html>

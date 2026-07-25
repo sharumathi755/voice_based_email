@@ -1,0 +1,345 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html>&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;    <title>Voice Email Backend Test</title>&ndash;&gt;-->
+<!--&lt;!&ndash;    <style>&ndash;&gt;-->
+<!--&lt;!&ndash;        body {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-family: Arial;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 40px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        input, textarea {&ndash;&gt;-->
+<!--&lt;!&ndash;            width: 300px;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 5px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        button {&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 6px 12px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 5px 0;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        #output {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-top: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;            white-space: pre-line;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-weight: bold;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        hr {&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 20px 0;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    </style>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<h2>Email System Testing</h2>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; LOGIN &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<h3>Login</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="text" id="email" placeholder="Enter Email"><br>&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="password" id="password" placeholder="Enter App Password"><br>&ndash;&gt;-->
+<!--&lt;!&ndash;<button onclick="login()">Login</button>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<hr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; MAIL ACTIONS &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<h3>Mail Actions</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;<button onclick="checkInbox()">Check Inbox</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button onclick="readLatest()">Read Latest</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button onclick="generateOTP()">Generate OTP</button>&ndash;&gt;-->
+<!--&lt;!&ndash;<button onclick="showFolders()">Show Folders</button>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<hr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash; SEND MAIL &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;<h3>Send Mail</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="text" id="to" placeholder="Receiver Email"><br>&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="text" id="subject" placeholder="Subject"><br>&ndash;&gt;-->
+<!--&lt;!&ndash;<textarea id="body" rows="4" placeholder="Message"></textarea><br>&ndash;&gt;-->
+<!--&lt;!&ndash;<button onclick="sendMail()">Send Mail</button>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<hr>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<p id="output"></p>&ndash;&gt;-->
+
+<!--&lt;!&ndash;<script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;function login(){&ndash;&gt;-->
+<!--&lt;!&ndash;    fetch("/set_credentials",{&ndash;&gt;-->
+<!--&lt;!&ndash;        method:"POST",&ndash;&gt;-->
+<!--&lt;!&ndash;        headers:{"Content-Type":"application/json"},&ndash;&gt;-->
+<!--&lt;!&ndash;        body:JSON.stringify({&ndash;&gt;-->
+<!--&lt;!&ndash;            email:document.getElementById("email").value,&ndash;&gt;-->
+<!--&lt;!&ndash;            password:document.getElementById("password").value&ndash;&gt;-->
+<!--&lt;!&ndash;        })&ndash;&gt;-->
+<!--&lt;!&ndash;    })&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(res=>res.json())&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(data=>{&ndash;&gt;-->
+<!--&lt;!&ndash;        if(data.status){&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.status;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        else{&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.error;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;function checkInbox(){&ndash;&gt;-->
+<!--&lt;!&ndash;    fetch("/mail_count")&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(res=>res.json())&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(data=>{&ndash;&gt;-->
+<!--&lt;!&ndash;        if(data.error){&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.error;&ndash;&gt;-->
+<!--&lt;!&ndash;        } else {&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText =&ndash;&gt;-->
+<!--&lt;!&ndash;                "Inbox count: " + data.count;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;function readLatest(){&ndash;&gt;-->
+<!--&lt;!&ndash;    fetch("/read_latest")&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(res=>res.json())&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(data=>{&ndash;&gt;-->
+
+<!--&lt;!&ndash;        if(data.error){&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.error;&ndash;&gt;-->
+<!--&lt;!&ndash;            return;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        document.getElementById("output").innerText =&ndash;&gt;-->
+<!--&lt;!&ndash;            "From: " + data.from +&ndash;&gt;-->
+<!--&lt;!&ndash;            "\nSubject: " + data.subject;&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;function generateOTP(){&ndash;&gt;-->
+<!--&lt;!&ndash;    fetch("/generate_otp")&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(res=>res.json())&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(data=>{&ndash;&gt;-->
+<!--&lt;!&ndash;        document.getElementById("output").innerText =&ndash;&gt;-->
+<!--&lt;!&ndash;            "OTP Words: " + data.otp_words;&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;function showFolders(){&ndash;&gt;-->
+<!--&lt;!&ndash;    fetch("/folders")&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(res=>res.json())&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(data=>{&ndash;&gt;-->
+
+<!--&lt;!&ndash;        if(data.error){&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.error;&ndash;&gt;-->
+<!--&lt;!&ndash;            return;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        let text = "";&ndash;&gt;-->
+<!--&lt;!&ndash;        for(let key in data){&ndash;&gt;-->
+<!--&lt;!&ndash;            text += key + ": " + data[key] + " emails\n";&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        document.getElementById("output").innerText = text;&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;function sendMail(){&ndash;&gt;-->
+<!--&lt;!&ndash;    fetch("/send_mail",{&ndash;&gt;-->
+<!--&lt;!&ndash;        method:"POST",&ndash;&gt;-->
+<!--&lt;!&ndash;        headers:{"Content-Type":"application/json"},&ndash;&gt;-->
+<!--&lt;!&ndash;        body:JSON.stringify({&ndash;&gt;-->
+<!--&lt;!&ndash;            to:document.getElementById("to").value,&ndash;&gt;-->
+<!--&lt;!&ndash;            subject:document.getElementById("subject").value,&ndash;&gt;-->
+<!--&lt;!&ndash;            body:document.getElementById("body").value&ndash;&gt;-->
+<!--&lt;!&ndash;        })&ndash;&gt;-->
+<!--&lt;!&ndash;    })&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(res=>res.json())&ndash;&gt;-->
+<!--&lt;!&ndash;    .then(data=>{&ndash;&gt;-->
+<!--&lt;!&ndash;        if(data.status){&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.status;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;        else{&ndash;&gt;-->
+<!--&lt;!&ndash;            document.getElementById("output").innerText = data.error;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+<!--&lt;!&ndash;}&ndash;&gt;-->
+
+<!--&lt;!&ndash;</script>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <title>Voice Email System</title>-->
+
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+<!--    <style>-->
+
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            font-family: Arial, sans-serif;-->
+<!--            background: #f4f6f9;-->
+<!--        }-->
+
+<!--        header {-->
+<!--            background: #1e3c72;-->
+<!--            color: white;-->
+<!--            padding: 20px;-->
+<!--            text-align: center;-->
+<!--            font-size: 28px;-->
+<!--            font-weight: bold;-->
+<!--        }-->
+
+<!--        .container {-->
+<!--            max-width: 900px;-->
+<!--            margin: auto;-->
+<!--            padding: 20px;-->
+<!--        }-->
+
+<!--        .card {-->
+<!--            background: white;-->
+<!--            padding: 25px;-->
+<!--            border-radius: 10px;-->
+<!--            box-shadow: 0 4px 12px rgba(0,0,0,0.08);-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+
+<!--        .card h3 {-->
+<!--            margin-top: 0;-->
+<!--            color: #333;-->
+<!--        }-->
+
+<!--        #spokenText {-->
+<!--            height: 250px;-->
+<!--            overflow-y: auto;-->
+<!--            border: 2px solid #ddd;-->
+<!--            padding: 15px;-->
+<!--            font-size: 18px;-->
+<!--            background: #fafafa;-->
+<!--            border-radius: 8px;-->
+<!--        }-->
+
+<!--        button {-->
+<!--            padding: 12px 25px;-->
+<!--            font-size: 18px;-->
+<!--            border: none;-->
+<!--            border-radius: 6px;-->
+<!--            background: #1e3c72;-->
+<!--            color: white;-->
+<!--            cursor: pointer;-->
+<!--        }-->
+
+<!--        button:hover {-->
+<!--            background: #16325c;-->
+<!--        }-->
+
+<!--        #passwordSection {-->
+<!--            margin-top: 15px;-->
+<!--            display: none;-->
+<!--        }-->
+
+<!--        input {-->
+<!--            width: 100%;-->
+<!--            padding: 12px;-->
+<!--            font-size: 16px;-->
+<!--            border-radius: 6px;-->
+<!--            border: 1px solid #ccc;-->
+<!--        }-->
+
+<!--        footer {-->
+<!--            text-align: center;-->
+<!--            padding: 15px;-->
+<!--            color: #777;-->
+<!--            font-size: 14px;-->
+<!--        }-->
+
+<!--        .highlight {-->
+<!--            font-weight: bold;-->
+<!--            color: #1e3c72;-->
+<!--        }-->
+
+<!--        @media (max-width: 600px) {-->
+<!--            header {-->
+<!--                font-size: 22px;-->
+<!--            }-->
+<!--            button {-->
+<!--                width: 100%;-->
+<!--            }-->
+<!--        }-->
+
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<header>-->
+<!--    🎙 Voice Based Email System-->
+<!--</header>-->
+
+<!--<div class="container">-->
+
+<!--    <div class="card">-->
+<!--        <h3>Assistant Control</h3>-->
+<!--        <button onclick="startVoiceAssistant()">Start Voice Assistant</button>-->
+<!--    </div>-->
+
+<!--    <div class="card">-->
+<!--        <h3>Conversation</h3>-->
+<!--        <div id="spokenText"></div>-->
+
+<!--        <div id="passwordSection">-->
+<!--            <label class="highlight">Type Gmail App Password:</label>-->
+<!--            <input type="password" id="passwordInput" placeholder="Enter App Password and press Enter">-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<!--<footer>-->
+<!--    Designed for Visually Impaired Users | Multi-Language Voice System-->
+<!--</footer>-->
+
+<!--<script src="{{ url_for('static', filename='script.js') }}"></script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Success</title>
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#0f2027,#2c5364);
+    color:white;
+    text-align:center;
+}
+.container{
+    margin-top:150px;
+}
+h1{
+    color:#00ffcc;
+}
+button{
+    padding:12px 30px;
+    border:none;
+    border-radius:25px;
+    background:#00ffcc;
+    cursor:pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Login Successful ✅</h1>
+<p>You can now access menu options.</p>
+<button onclick="window.location.href='/menu'">Go to Menu</button>
+</div>
+
+</body>
+</html>

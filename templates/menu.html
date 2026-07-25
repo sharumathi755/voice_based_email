@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Menu</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#141e30,#243b55);
+color:white;
+text-align:center;
+}
+
+header{
+background:#0f2027;
+padding:20px;
+font-size:22px;
+}
+
+.container{
+margin-top:120px;
+}
+
+button{
+padding:15px 40px;
+margin:15px;
+border:none;
+border-radius:30px;
+background:#00c6ff;
+font-size:16px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<header>VOICE BASED EMAIL SYSTEM</header>
+
+<div class="container">
+
+<h1>Menu</h1>
+
+<button onclick="location.href='/send'">Send Mail</button><br>
+
+<button onclick="location.href='/inbox'">Check Inbox</button><br>
+
+<button onclick="location.href='/otp'">Generate OTP</button>
+
+</div>
+
+<div id="spokenText"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+
+systemState="menu";
+
+speak("Menu page. Say send mail, check inbox, or generate otp.",()=>{
+beep();
+setTimeout(()=>listen(handleCommand),600);
+});
+
+</script>
+
+</body>
+</html>

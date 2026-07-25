@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>OTP</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#141e30,#243b55);
+color:white;
+text-align:center;
+}
+
+.container{
+margin-top:150px;
+}
+
+button{
+padding:15px 40px;
+border-radius:30px;
+border:none;
+background:#00c6ff;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Generate OTP</h1>
+
+<div class="container">
+
+<button onclick="generateOTP()">Generate OTP</button>
+
+<h2 id="otp"></h2>
+
+</div>
+
+<div id="spokenText"></div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<script>
+
+systemState="otp";
+
+speak("OTP page. Say generate otp.",()=>{
+beep();
+setTimeout(()=>listen(handleCommand),600);
+});
+
+function generateOTP(){
+fetch("/generate_otp")
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("otp").innerText="OTP: "+data.otp;
+speak("Your OTP is "+data.otp);
+});
+}
+
+</script>
+
+</body>
+</html>
